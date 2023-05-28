@@ -3,7 +3,13 @@ name = "conquer-struct"
 version = "0.1.0"
 edition = "2021"
 description = "provides macros to perform concurrent future resolution, while populating struct fields"
-author = [ "Nishant Joshi<nishantjosh@pm.me>" ]
+authors = [ "Nishant Joshi<nishantjosh@pm.me>" ]
+repository = "https://github.com/NishantJoshi00/conquer-struct"
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+keywords = [ "macros", "async" ]
+categories = [ "asynchronous", "development-tools" ]
+
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
