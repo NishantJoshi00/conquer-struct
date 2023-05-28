@@ -1,0 +1,22 @@
+[package]
+name = "conquer-struct"
+version = "0.1.0"
+edition = "2021"
+description = "provides macros to perform concurrent future resolution, while populating struct fields"
+author = [ "Nishant Joshi<nishantjosh@pm.me>" ]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+proc-macro = true
+
+[dependencies]
+syn = "2.0.18"
+quote = "1.0.28"
+proc-macro2 = "1.0.59"
+
+
+[dev-dependencies]
+tokio = { version = "1.28.2", features = [ "macros", "rt-multi-thread" ] }
+
+

@@ -1,0 +1,37 @@
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+
+  formatting:
+    name: Formatting Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@nightly
+        with:
+          components: rustfmt
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Run fmt check
+        run: cargo +nightly fmt --all --check
+  sanity:
+    name: Sanity Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Run clippy check
+        run: cargo clippy -- -D warnings
+      - name: Install cargo audit
+        run: cargo install cargo-audit
+      - name: Run cargo audit
+        run: cargo audit -D warnings
