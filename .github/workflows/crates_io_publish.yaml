@@ -2,6 +2,8 @@ name: Publish to Crates.io
 
 on:
   workflow_dispatch:
+
+
 jobs:
   formatting:
     name: Formatting Check
@@ -33,7 +35,7 @@ jobs:
         run: cargo audit -D warnings
   dry-run:
     name: Dry run publish
-    needs: [sanity, formatting]
+    needs: [ sanity, formatting ]
     runs-on: ubuntu-latest
     steps:
       - name: Install Rust
@@ -45,15 +47,13 @@ jobs:
   publish:
     name: Publish to crates.io
     runs-on: ubuntu-latest
-    needs: [sanity, dry-run]
-    environment:
-      CARGO_REGISTRY_TOKEN: ${{ secrets.CRATES_IO__TOKEN }}
+    needs: [ sanity, dry-run ]
     steps:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Cargo login
-        run: cargo login
       - name: Publish
-        run: cargo publish
+        run: cargo publish --token ${CRATES_TOKEN}
+        env:
+          CRATES_TOKEN: ${{ secrets.CRATES_IO__TOKEN }}
