@@ -1,3 +1,63 @@
+//!
+//! # Conquer Struct
+//!
+//!
+//! Introducing `conquer_struct`, as the name suggest it will
+//! conquer concurreny for you and you can avoid writing any boilerplate
+//! code. Let's take the same example as above, look at how to make it concurrent
+//!
+//! ```rust
+//!
+//! async fn get_contact_info(contact_id: usize) -> Contact {
+//!     conquer_future!(Contact {
+//!         name: async { get_contact_name(contact_id).await },
+//!         number: async { get_contact_number(contact_id).await },
+//!         is_verified: true
+//!     }).await
+//! }
+//!
+//! ```
+//!
+//! Done! Wasn't is simple, with minimal change our code is transformed into
+//! concurrent code.
+//!
+//! ## Usage
+//!
+//! `conquer_struct` provides use with 2 macros.
+//!
+//! [`conquer_future!`] this macro resolves the futures provided inside the struct.
+//! the macro has a rough signature:
+//!
+//! ```rust
+//!
+//! conquer_future!(StructName {
+//!     value1: T,
+//!     value2: async { .. } // ~ impl Future<Output = V>, considering the field
+//!                         // accepts type V
+//! }) -> impl Future<Output = StructName>
+//!
+//! ```
+//!
+//! [`try_conquer_future!`] this macro resolves the futures provided inside the struct,
+//! as well as consider the result of the future that are present inside.
+//!
+//! ```rust
+//!
+//! try_conquer_future!(StructName {
+//!     value1: T,
+//!     value2: async { .. } // ~ impl Future<Output = Result<V, E>>, consider the field
+//!                         // accepts type V
+//! }) -> impl Future<Output = Result<StructName, E>>
+//!
+//! ```
+//!
+//!
+//! ### Support
+//!
+//! Supported runtime for concurrent execution
+//! - `tokio`
+//!
+
 mod executor;
 mod types;
 
